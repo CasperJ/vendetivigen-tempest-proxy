@@ -2,12 +2,15 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import { config } from './config/env';
 import { HomeAssistantClient, HomeAssistantRequestError } from './clients/homeAssistantClient';
 import { createRealTimeRouter } from './routes/realTimeRouter';
+import cors from "cors";
 
 export const createApp = (): Application => {
   const app = express();
+  
   const homeAssistantClient = new HomeAssistantClient(config.homeAssistant);
 
   app.set('trust proxy', true);
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
